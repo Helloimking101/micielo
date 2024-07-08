@@ -5,16 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mensaje Importante</title>
     <style>
-        .card {
-            width: 300px;
-            height: 200px;
-            border: 2px solid #000;
-            border-radius: 10px;
+        body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            margin: 50px auto;
+            height: 100vh;
+            background-color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: #b0c4de;
+            border-radius: 10px;
+            overflow: hidden;
             cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+        .envelope::before, .envelope::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #4682b4;
+            transition: transform 0.5s ease;
+        }
+        .envelope::before {
+            top: 0;
+            transform-origin: top;
+            transform: rotateX(0deg);
+        }
+        .envelope::after {
+            bottom: 0;
+            transform-origin: bottom;
+            transform: rotateX(0deg);
+        }
+        .envelope.open::before {
+            transform: rotateX(-180deg);
+        }
+        .envelope.open::after {
+            transform: rotateX(180deg);
         }
         .message {
             display: none;
@@ -22,19 +61,25 @@
             margin-top: 20px;
             font-size: 1.5em;
         }
+        .message.show {
+            display: block;
+        }
     </style>
     <script>
         function showMessage() {
-            document.getElementById('loveMessage').style.display = 'block';
+            const envelope = document.querySelector('.envelope');
+            const message = document.querySelector('.message');
+            envelope.classList.add('open');
+            setTimeout(() => {
+                message.classList.add('show');
+            }, 500);
         }
     </script>
 </head>
 <body>
-    <h1 style="text-align: center;">Tienes un mensaje importante para ti</h1>
-    <div class="card" onclick="showMessage()">
-        <p>📜</p>
-    </div>
-    <div id="loveMessage" class="message">
+    <h1>Tienes un mensaje importante para ti</h1>
+    <div class="envelope" onclick="showMessage()"></div>
+    <div class="message">
         <p>Te amo más de lo que las palabras pueden expresar. Eres mi todo. ❤️</p>
     </div>
 </body>
